@@ -1,0 +1,71 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Meus Livros</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-segment [(ngModel)]="statusFiltro" (ionChange)="filtrarLivros()">
+    <ion-segment-button value="">Todos</ion-segment-button>
+    <ion-segment-button value="lido">Lidos</ion-segment-button>
+    <ion-segment-button value="lendo">Lendo</ion-segment-button>
+    <ion-segment-button value="pendente">Pendentes</ion-segment-button>
+  </ion-segment>
+
+  <!-- Lista de Livros -->
+  <ion-list>
+    <ion-card *ngFor="let livro of livrosFiltrados">
+      <ion-card-header>
+        <ion-card-title>{{ livro.titulo }}</ion-card-title>
+        <ion-card-subtitle>{{ livro.autor }}</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <p><strong>Status:</strong> {{ livro.status }}</p>
+
+        <p *ngIf="livro.totalPaginas > 0">
+          <strong>Progresso:</strong> {{ livro.paginaAtual }} / {{ livro.totalPaginas }}
+        </p>
+
+        <p *ngIf="livro.nota"><strong>Nota:</strong> {{ livro.nota }}</p>
+        <p *ngIf="livro.favorito"><strong>Trecho Favorito:</strong> "{{ livro.favorito }}"</p>
+
+        <ion-grid>
+          <ion-row>
+            <ion-col size="6">
+              <ion-button expand="block" color="tertiary" (click)="editarStatus(livro)">
+                Editar Status
+              </ion-button>
+            </ion-col>
+            <ion-col size="6">
+              <ion-button expand="block" color="primary" (click)="registrarProgresso(livro)">
+                Progresso
+              </ion-button>
+            </ion-col>
+            <ion-col size="6">
+              <ion-button expand="block" color="secondary" (click)="adicionarNota(livro)">
+                Nota
+              </ion-button>
+            </ion-col>
+            <ion-col size="6">
+              <ion-button expand="block" color="success" (click)="marcarFavorito(livro)">
+                Favorito
+              </ion-button>
+            </ion-col>
+            <ion-col size="12">
+              <ion-button expand="block" color="danger" (click)="excluirLivro(livro.id)">
+                Excluir
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="abrirFormularioAdicionar()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>
